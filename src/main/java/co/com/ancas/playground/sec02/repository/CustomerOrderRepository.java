@@ -1,0 +1,26 @@
+package co.com.ancas.playground.sec02.repository;
+
+import co.com.ancas.playground.sec02.entity.CustomerOrderEntity;
+import org.springframework.data.r2dbc.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Flux;
+
+import java.util.UUID;
+
+@Repository
+public interface CustomerOrderRepository extends ReactiveCrudRepository<CustomerOrderEntity, UUID> {
+
+    @Query("""
+            SELECT
+                p.*
+            FROM
+                customer c
+            INNER JOIN customer_order co ON c.id = co.customer_id
+            INNER JOIN product p ON co.product_id = p.id
+            WHERE
+                c.id = :id
+            """)
+    Flux<CustomerOrderEntity> findByCustomerId(@Param("id") Long customerId);
+}

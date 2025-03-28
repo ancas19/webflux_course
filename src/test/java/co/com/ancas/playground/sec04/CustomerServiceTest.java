@@ -1,6 +1,6 @@
-package co.com.ancas.playground.sec03;
+package co.com.ancas.playground.sec04;
 
-import co.com.ancas.playground.sec03.dto.CustomerDTO;
+import co.com.ancas.playground.sec04.dto.CustomerDTO;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,9 +13,9 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import java.util.Objects;
 
 @AutoConfigureWebTestClient
-@SpringBootTest(properties = "sec=sec03")
+@SpringBootTest(properties = "sec=sec04")
 public class CustomerServiceTest {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CustomerServiceTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(co.com.ancas.playground.sec03.CustomerServiceTest.class);
 
     @Autowired
     private WebTestClient webClient;
@@ -127,5 +127,27 @@ public class CustomerServiceTest {
                 .exchange()
                 .expectStatus().isNotFound();
 
+    }
+
+    @Test
+    void invalidArgument(){
+        //Missing name
+        this.webClient.post()
+                .uri("/customers")
+                .bodyValue(new CustomerDTO(null,null,"test@gmail"))
+                .exchange()
+                .expectStatus()
+                .isBadRequest()
+                .expectBody()
+                .consumeWith(response-> LOGGER.info("{}",new String(Objects.requireNonNull(response.getResponseBody()))));
+        //Missing email
+        this.webClient.post()
+                .uri("/customers")
+                .bodyValue(new CustomerDTO(null,"test",null))
+                .exchange()
+                .expectStatus()
+                .isBadRequest()
+                .expectBody()
+                .consumeWith(response-> LOGGER.info("{}",new String(Objects.requireNonNull(response.getResponseBody()))));
     }
 }

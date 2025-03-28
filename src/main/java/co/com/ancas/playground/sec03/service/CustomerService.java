@@ -3,6 +3,7 @@ package co.com.ancas.playground.sec03.service;
 import co.com.ancas.playground.sec03.dto.CustomerDTO;
 import co.com.ancas.playground.sec03.mapper.EntityDTOMapper;
 import co.com.ancas.playground.sec03.repository.CustomerRepository;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -17,6 +18,11 @@ public class CustomerService {
 
     public Flux<CustomerDTO> findAll() {
         return this.customerRepository.findAll()
+                .map(EntityDTOMapper::toDTO);
+    }
+
+    public Flux<CustomerDTO> findAllPageable(Pageable pageable) {
+        return this.customerRepository.findBy(pageable)
                 .map(EntityDTOMapper::toDTO);
     }
 
@@ -41,5 +47,9 @@ public class CustomerService {
                 })
                 .flatMap(this.customerRepository::save)
                 .map(EntityDTOMapper::toDTO);
+    }
+
+    public Mono<Boolean> deleteCustomer(Long id) {
+        return this.customerRepository. deleteCustomerById(id);
     }
 }

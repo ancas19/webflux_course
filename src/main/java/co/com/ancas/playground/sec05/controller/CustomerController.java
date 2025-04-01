@@ -3,6 +3,7 @@ package co.com.ancas.playground.sec05.controller;
 import co.com.ancas.playground.sec05.dto.CustomerDTO;
 import co.com.ancas.playground.sec05.enums.Messages;
 import co.com.ancas.playground.sec05.exception.CustomerNotFoundException;
+import co.com.ancas.playground.sec05.filter.Category;
 import co.com.ancas.playground.sec05.service.CustomerService;
 import co.com.ancas.playground.sec05.validator.RequestValidator;
 import org.springframework.data.domain.PageRequest;
@@ -22,7 +23,10 @@ public class  CustomerController {
     }
 
     @GetMapping
-    public Flux<CustomerDTO> findAll() {
+    public Flux<CustomerDTO> findAll(
+            @RequestAttribute("category") Category category
+    ) {
+        System.out.println(category);
         return this.customerService.findAll();
     }
 

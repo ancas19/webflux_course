@@ -1,11 +1,9 @@
 package co.com.ancas.playground.sec07;
 
 import co.com.ancas.playground.sec07.DTO.CalculatorResponse;
-import co.com.ancas.playground.sec07.DTO.Product;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.parsing.Problem;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;

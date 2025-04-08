@@ -1,8 +1,6 @@
 package co.com.ancas.playground.sec07;
 
 import co.com.ancas.playground.sec07.DTO.CalculatorResponse;
-import co.com.ancas.playground.sec07.DTO.Product;
-import org.apache.commons.logging.Log;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.logging.Logger;
 import org.junit.platform.commons.logging.LoggerFactory;
@@ -10,7 +8,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.test.StepVerifier;
 
 import java.util.Map;
-import java.util.Objects;
 
 public class Lec06QueryParamsTest extends AbstractWebClient{
     private static final Logger log= LoggerFactory.getLogger(Lec06QueryParamsTest.class);

@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
+import java.nio.file.Path;
 import java.time.Duration;
 
 /*
@@ -19,9 +20,9 @@ public class ProductsUploadDownloadTest {
     @Test
     void uipload() throws InterruptedException {
 
-        Flux<Product> productFlux=Flux.range(1,10)
+        Flux<Product> productFlux=Flux.range(1,1000000)
                 .map(i->new Product(null,"Product "+i,i*1000)
-        ).delayElements(Duration.ofSeconds(2));
+        );
 
         client.uploladProducts(productFlux)
                 .doOnNext(item->log.info("Receive: {} ",item))
@@ -31,4 +32,14 @@ public class ProductsUploadDownloadTest {
                 .verify();
     }
 
+
+    @Test
+    void download() throws InterruptedException {
+        client.getProducts()
+                .map(Product::toString)
+                .as(data->FileWriter.create(data, Path.of("products.txt")))
+                .as(StepVerifier::create)
+                .expectComplete()
+                .verify();
+    }
 }

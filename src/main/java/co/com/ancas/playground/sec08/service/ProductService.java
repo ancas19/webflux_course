@@ -23,6 +23,11 @@ public class ProductService {
                 .map(ProductMapper::toProductDTO);
     }
 
+    public Flux<Product> getProducts() {
+        return productRepository.findAll()
+                .map(ProductMapper::toProductDTO);
+    }
+
     public Mono<Long> getProductsCount() {
         return productRepository.count();
     }
